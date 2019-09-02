@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>DebugPaneActiveTab</key>
+	<integer>0</integer>
+	<key>ExplorerSplitter</key>
+	<real>250</real>
+	<key>FinalOutputFileXml_file:///Users/mh/Code/RemObjects/recipes/libpq/libpq.elements_Debug</key>
+	<string>/Users/mh/Library/Application Support/RemObjects Software/EBuild/Obj/libpq-7E5568611C4B13ED9A7B55920B7174FC91CE2EBB/Debug/FinalOutput.xml</string>
+	<key>FolderExpanded_libpq_/Users/mh/Code/RemObjects/recipes/libpq/libpq.elements---Targets</key>
+	<true/>
+	<key>FolderExpanded_libpq_file:///Users/mh/Code/RemObjects/recipes/libpq/libpq.elements_file:///Users/mh/Code/RemObjects/recipes/libpq/</key>
+	<true/>
+	<key>FolderExpanded_pgsql-driver_/Users/mh/Code/RemObjects/recipes/pgsql-driver/pgsql-driver.elements---References</key>
+	<true/>
+	<key>FolderExpanded_pgsql-driver_/Users/mh/Code/RemObjects/recipes/pgsql-driver/pgsql-driver.elements---Targets</key>
+	<true/>
+	<key>FolderExpanded_pgsql-driver_file:///Users/mh/Code/RemObjects/recipes/pgsql%2Ddriver/pgsql%2Ddriver.elements_file:///Users/mh/Code/RemObjects/recipes/pgsql%2Ddriver/</key>
+	<true/>
+	<key>LastBuildStatusLabel</key>
+	<string>Last build failed (186 errors)</string>
+	<key>NavigationPaneActiveTab</key>
+	<integer>0</integer>
+	<key>ProjectEnabled_file:///Users/mh/Code/RemObjects/recipes/libpq/libpq.elements</key>
+	<true/>
+	<key>SelectedNode</key>
+	<string>/Users/mh/Code/RemObjects/recipes/pgsql-driver/pgsql-driver.sln---BuildLog</string>
+	<key>ViewMetaData</key>
+	<dict>
+		<key>/Users/mh/Code/RemObjects/recipes/pgsql-driver/pgsql-driver.sln---BuildLog</key>
+		<dict>
+			<key>CursorX</key>
+			<integer>58</integer>
+			<key>CursorY</key>
+			<integer>737</integer>
+			<key>ScrollX</key>
+			<real>0.0</real>
+			<key>ScrollY</key>
+			<real>11401</real>
+			<key>ScrolledToBottom</key>
+			<false/>
+			<key>SelectionCursorUndecided</key>
+			<false/>
+			<key>SelectionEndColumn</key>
+			<integer>-1</integer>
+			<key>SelectionEndLine</key>
+			<integer>-1</integer>
+			<key>SelectionIsLinear</key>
+			<true/>
+			<key>SelectionStartColumn</key>
+			<integer>-1</integer>
+			<key>SelectionStartLine</key>
+			<integer>-1</integer>
+		</dict>
+	</dict>
+	<key>Window_Height</key>
+	<real>810</real>
+	<key>Window_Width</key>
+	<real>1440</real>
+	<key>Window_X</key>
+	<real>0.0</real>
+	<key>Window_Y</key>
+	<real>67</real>
+</dict>
+</plist>
