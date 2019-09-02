@@ -33,13 +33,10 @@
     <SDK>macOS</SDK>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="gc" />
-    <Reference Include="Island" />
-    <Reference Include="rtl" />
-    <ProjectReference Include="libpg">
-      <Project>{EEE0A83D-DF16-4915-B8AF-EC678E65CEAF}</Project>
-      <ProjectFile>..\libpg\libpg.elements</ProjectFile>
-    </ProjectReference>
+    <Reference Include="#" />
+    <RemoteProjectReference Include="github.com/remobjects/IslandDB/libpq/libpq.elements:*">
+      <Private>True</Private>
+    </RemoteProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PostgreSQLDriver.pas" />
