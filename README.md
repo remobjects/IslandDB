@@ -1,6 +1,6 @@
 # Overview
 
-IslandDB is a collection of [Import Projects](https://docs.elementscompiler.com/Tools/FXGen/ImportProjects) and related wrappers/drivers that allow you to access common database types form your Island projects.
+IslandDB is a collection of [Import Projects](https://docs.elementscompiler.com/Tools/FXGen/ImportProjects) and related wrappers/drivers that allow you to access common database types from your Island projects.
 
 # License
 
