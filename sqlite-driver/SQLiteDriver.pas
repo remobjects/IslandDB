@@ -177,7 +177,7 @@ end;
             typeOf(Double): sqlite3_bind_double(fCommand, n, Double(Parameters[i].Value));
 
             typeOf(String): begin
-                var c := String(Parameters[i].Value).ToCharArray;
+                var c := String(Parameters[i].Value).ToCharArray(true);
                 sqlite3_bind_text16(fCommand, n, @c[0], -1, nil);
             end;
             typeOf(array of Byte): sqlite3_bind_blob(fCommand, n, @array of Byte(Parameters[i].Value)[0], array of Byte(Parameters[i].Value).Length, nil);
