@@ -57,7 +57,7 @@ type
         raise new ArgumentException('Invalid state; already open');
       end;
       State := ConnectionState.Connecting;
-      var lArg := ConnectionString.ToCharArray;
+      var lArg := ConnectionString.ToCharArray(true);
       Throw(sqlite3_open16(@lArg[0], @fHandle));
       State := ConnectionState.Open;
     end;
