@@ -34,14 +34,14 @@
     <Architecture>x86_64</Architecture>
     <OutputType>StaticLibrary</OutputType>
   </PropertyGroup>
-  <!--
   <PropertyGroup Condition=" '$(Target)' == 'Island.Darwin.macOS' ">
     <Mode>Island</Mode>
     <SubMode>Darwin</SubMode>
     <SDK>macOS</SDK>
-    <DefineConstants>POSIX;math_big_pure_go</DefineConstants>
+    <Architecture>x86_64</Architecture>
     <OutputType>StaticLibrary</OutputType>
-  </PropertyGroup>
+  </PropertyGroup>  <!--
+
   <PropertyGroup Condition=" '$(Target)' == 'Island.Darwin.iOS' ">
     <Mode>Island</Mode>
     <SubMode>Darwin</SubMode>
