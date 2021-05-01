@@ -54,14 +54,14 @@ type
     method BeginTransaction(aLevel: RemObjects.Elements.System.IsolationLevel := 0): DbTransaction; override;
     begin
       var lTrans := (fRowset as ITransactionLocal);
-      case aLevel of 
+      case aLevel of
         RemObjects.Elements.System.IsolationLevel.ReadUncommited: HResultCheck(lTrans.StartTransaction(__enum_ISOLATIONLEVEL.ISOLATIONLEVEL_READUNCOMMITTED, 0, nil, nil));
         RemObjects.Elements.System.IsolationLevel.ReadCommited: HResultCheck(lTrans.StartTransaction(__enum_ISOLATIONLEVEL.ISOLATIONLEVEL_READCOMMITTED, 0, nil, nil));
         RemObjects.Elements.System.IsolationLevel.RepeatedRead: HResultCheck(lTrans.StartTransaction(__enum_ISOLATIONLEVEL.ISOLATIONLEVEL_REPEATABLEREAD, 0, nil, nil));
         RemObjects.Elements.System.IsolationLevel.Serializable: HResultCheck(lTrans.StartTransaction(__enum_ISOLATIONLEVEL.ISOLATIONLEVEL_SERIALIZABLE, 0, nil, nil));
       else HResultCheck(lTrans.StartTransaction(__enum_ISOLATIONLEVEL.ISOLATIONLEVEL_UNSPECIFIED, 0, nil, nil));
       end;
-      
+
       exit new OleDbTransaction(lTrans);
     end;
 
@@ -87,22 +87,22 @@ type
      fTrans: ITransactionLocal;
   public
     constructor(aTrans: ITransactionLocal);
-    begin 
+    begin
       fTrans := aTrans;
     end;
 
     method Dispose; override;
-    begin 
+    begin
       fTrans := nil;
     end;
 
     method Commit; override;
-    begin 
+    begin
       HResultCheck(fTrans.Commit(false, 0, 0));
     end;
 
     method Rollback; override;
-    begin 
+    begin
       HResultCheck(fTrans.Abort(nil, false, false));
     end;
   end;
@@ -126,8 +126,8 @@ type
       fPrepared := fInst as ICommandPrepare;
       fParamMap.Clear;
       var c := 1;
-      var lCmd := SqlQueryParameterFixer.FixString(Command, a -> begin 
-        if fParamMap.TryGetValue(a, out var lVal) then begin 
+      var lCmd := SqlQueryParameterFixer.FixString(Command, a -> begin
+        if fParamMap.TryGetValue(a, out var lVal) then begin
           var lNarr := new Integer[lVal.Count];
           Array.Copy(lVal, lNarr, lVal.Count);
           lNarr[lNarr.Count-1] := c;
@@ -146,7 +146,7 @@ type
       HResultCheck(lRes);
     end;
 
-    method FillArguments(aWantRowset: Boolean; out Count: Integer): IRowset; private;
+    method FillArguments(aWantRowset: Boolean; out Count: DBROWCOUNT): IRowset; private;
     begin
       if fPrepared = nil then Prepare;
       var lAcc: IAccessor;
@@ -161,8 +161,8 @@ type
         lRowData := new DBRESULT[fParamCount];
         var lOffset := 0;
 
-        
-        for i: Integer := 0 to fParamCount -1 do begin 
+
+        for i: Integer := 0 to fParamCount -1 do begin
           //lRowData[i].Data := ObjectToVar(Parameters[i].Value);
           lBind[i].dwPart := Integer(__enum_DBPARTENUM.DBPART_VALUE or __enum_DBPARTENUM.DBPART_STATUS or __enum_DBPARTENUM.DBPART_LENGTH);
           lBind[i].eParamIO := __enum_DBPARAMIOENUM.DBPARAMIO_INPUT as Integer;
@@ -174,9 +174,9 @@ type
           lBind[i].cbMaxLen := sizeOf(VARIANT);
           lOffset := lBind[i].obValue + sizeOf(VARIANT);
         end;
-        for i: Integer := 0 to Parameters.Count -1 do begin 
+        for i: Integer := 0 to Parameters.Count -1 do begin
           if not fParamMap.TryGetValue(Parameters[i].Name, out var lndex) then continue;
-          for j: Integer := 0 to length(lndex) -1 do begin 
+          for j: Integer := 0 to length(lndex) -1 do begin
             lRowData[lndex[j]-1].Data := ObjectToVar(Parameters[i].Value);
         end;
         end;
@@ -190,11 +190,11 @@ type
       //x.cParamSets
 
       var lRes: Integer;
-      if aWantRowset then 
+      if aWantRowset then
         HResultCheck(fInst.Execute(nil, @OleDbConnection.IID_IRowSet, if lAcc = nil then nil else @lDB, @Count, ^IUnknown(@result)))
-      else 
+      else
         HResultCheck(fInst.Execute(nil, nil, if lAcc = nil then nil else @lDB, @Count, nil));
-      if lAcc <> nil then begin 
+      if lAcc <> nil then begin
         lAcc.ReleaseAccessor(lAccH, nil);
         lAcc := nil;
       end;
@@ -206,14 +206,13 @@ type
 
     method ExecuteNonQuery: Integer; override;
     begin
-      FillArguments(false, out result);
+      FillArguments(false, out var lCount);
+      result := lCount;
     end;
 
     method ExecuteReader: DbDataReader; override;
     begin
-      var lCount: Integer;
-      var lRowSet: IRowset := FillArguments(true, out lCount);
-
+      var lRowSet: IRowset := FillArguments(true, out var lCount);
       exit new OleDbDataReader(lRowSet);
     end;
   end;
