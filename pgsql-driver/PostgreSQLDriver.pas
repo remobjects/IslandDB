@@ -2,7 +2,7 @@
 uses
   libpq;
 type
-  
+
   PostgreSQLOid = public enum (
     boolean = 16, //boolean, 'true'/'false'
     bytea = 17, //variable-length string, binary values escaped
@@ -217,7 +217,7 @@ type
         exit '$'+lRes.ToString;
       end);
 
-      fCommand := PQprepare(fOwner.fHandle, fName, lData, 0, nil);
+      fCommand := PQprepare(fOwner.fHandle, fName, lData, fParIdx.Count, nil);
       case PQresultStatus(fCommand) of
         ExecStatusType.PGRES_BAD_RESPONSE,
         ExecStatusType.PGRES_FATAL_ERROR: begin
@@ -236,7 +236,13 @@ type
       var lPVL := new Integer[fParIdx.Count+1];
       var lPVT := new Integer[fParIdx.Count+1];
       for i: Integer := 0 to Parameters.Count -1 do begin
-        if not fParIdx.TryGetValue(Parameters[i].Name, out var lIdx) then continue;
+
+        var keyName := Parameters[i].Name.Substring(1,Parameters[i].Name.Length-1);
+
+        if not fParIdx.TryGetValue(keyName, out var lIdx) then continue;
+
+        lIdx := lIdx - 1;
+
         if Parameters[i].Value is array of Byte then begin
           lPV[lIdx] := @(array of Byte(Parameters[i].Value)[0]);
           lPVL[lIdx] := array of Byte(Parameters[i].Value).Length;
@@ -298,12 +304,12 @@ type
       inc(fIndex);
       exit true;
     end;
-    property FieldCount: Integer read -> begin 
-      result := PQnfields(fRes); 
-    end;override; 
-    property FieldName[i: Integer]: String read -> begin 
-      result := String.FromPAnsiChars(^AnsiChar(PQfname (fRes, i))); 
-    end;override; 
+    property FieldCount: Integer read -> begin
+      result := PQnfields(fRes);
+    end;override;
+    property FieldName[i: Integer]: String read -> begin
+      result := String.FromPAnsiChars(^AnsiChar(PQfname (fRes, i)));
+    end;override;
     property Item[i: Integer]: Object read -> begin
       if PQgetisnull(fRes, fIndex, i) <> 0 then exit nil;
       var lLen := PQgetlength(fRes, fIndex, i);
@@ -324,7 +330,7 @@ type
           exit( Int16(lVal[0]) shl 8) or ( Int16(lVal[1]) shl 0);
         PostgreSQLOid.integer:
           exit( Int32(lVal[0]) shl 24) or ( Int32(lVal[1]) shl 16) or ( Int32(lVal[2]) shl 8)or ( Int32(lVal[3]) shl 0);
-        PostgreSQLOid.json,PostgreSQLOid.xml, PostgreSQLOid.text:begin
+        PostgreSQLOid.json,PostgreSQLOid.xml, PostgreSQLOid.text, PostgreSQLOid.character_varying :begin
             var lData := new Byte[lLen];
             Array.Copy(lVal, lData, 0, lLen);
             exit Encoding.UTF8.GetString(lData);
@@ -351,11 +357,11 @@ type
             exit lRes;
           end;
         PostgreSQLOid.timestamp_without_timezone,
-        PostgreSQLOid.timestamp_withtimezone: begin 
+        PostgreSQLOid.timestamp_withtimezone: begin
           var lValue := ( Int64(lVal[0]) shl 56) or ( Int64(lVal[1]) shl 48) or ( Int64(lVal[2]) shl 40)or ( Int64(lVal[3]) shl 32) or( Int64(lVal[4]) shl 24) or ( Int64(lVal[5]) shl 16) or ( Int64(lVal[6]) shl 8)or ( Int64(lVal[7]) shl 0);
           exit new DateTime(lValue * 10  + new DateTime(2000, 1, 1).Ticks);
         end;
-        
+
       /*
         abstime = 702, //absolute, limited-range date and time (Unix system time)
         reltime = 703, //relative, limited-range time interval (Unix delta time)
