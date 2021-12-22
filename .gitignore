@@ -1,3 +1,5 @@
 *.cache
 *.user
 Bin
+libpq/Bin/Debug/macOS/x86_64/libpq.fx
+libpq/Bin/Debug/macOS/x86_64/libpq.pas
